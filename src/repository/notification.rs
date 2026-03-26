@@ -10,5 +10,9 @@ lazy_static! {
 pub struct NotificationRepository;
 
 impl NotificationRepository {
-    // ... (fungsi di bawah)
+    pub fn add(notification: Notification) -> Notification {
+        NOTIFICATIONS.write().unwrap()
+            .push(notification.clone());
+        return notification;
+    }
 }
