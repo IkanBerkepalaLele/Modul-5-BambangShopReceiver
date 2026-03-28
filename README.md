@@ -59,25 +59,25 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   Open another new terminal, edit `ROCKET_PORT` in `.env` to `8003`, then execute `cargo run`.
 
 ## Mandatory Checklists (Subscriber)
--   [ ] Clone https://gitlab.com/ichlaffterlalu/bambangshop-receiver to a new repository.
+-   [x] Clone https://gitlab.com/ichlaffterlalu/bambangshop-receiver to a new repository.
 -   **STAGE 1: Implement models and repositories**
-    -   [ ] Commit: `Create Notification model struct.`
-    -   [ ] Commit: `Create SubscriberRequest model struct.`
-    -   [ ] Commit: `Create Notification database and Notification repository struct skeleton.`
-    -   [ ] Commit: `Implement add function in Notification repository.`
-    -   [ ] Commit: `Implement list_all_as_string function in Notification repository.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
+    -   [x] Commit: `Create Notification model struct.`
+    -   [x] Commit: `Create SubscriberRequest model struct.`
+    -   [x] Commit: `Create Notification database and Notification repository struct skeleton.`
+    -   [x] Commit: `Implement add function in Notification repository.`
+    -   [x] Commit: `Implement list_all_as_string function in Notification repository.`
+    -   [x] Write answers of your learning module's "Reflection Subscriber-1" questions in this README.
 -   **STAGE 3: Implement services and controllers**
-    -   [ ] Commit: `Create Notification service struct skeleton.`
-    -   [ ] Commit: `Implement subscribe function in Notification service.`
-    -   [ ] Commit: `Implement subscribe function in Notification controller.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification service.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification controller.`
-    -   [ ] Commit: `Implement receive_notification function in Notification service.`
-    -   [ ] Commit: `Implement receive function in Notification controller.`
-    -   [ ] Commit: `Implement list_messages function in Notification service.`
-    -   [ ] Commit: `Implement list function in Notification controller.`
-    -   [ ] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
+    -   [x] Commit: `Create Notification service struct skeleton.`
+    -   [x] Commit: `Implement subscribe function in Notification service.`
+    -   [x] Commit: `Implement subscribe function in Notification controller.`
+    -   [x] Commit: `Implement unsubscribe function in Notification service.`
+    -   [x] Commit: `Implement unsubscribe function in Notification controller.`
+    -   [x] Commit: `Implement receive_notification function in Notification service.`
+    -   [x] Commit: `Implement receive function in Notification controller.`
+    -   [x] Commit: `Implement list_messages function in Notification service.`
+    -   [x] Commit: `Implement list function in Notification controller.`
+    -   [x] Write answers of your learning module's "Reflection Subscriber-2" questions in this README.
 
 ## Your Reflections
 This is the place for you to write reflections:
@@ -85,5 +85,13 @@ This is the place for you to write reflections:
 ### Mandatory (Subscriber) Reflections
 
 #### Reflection Subscriber-1
+- Menurut saya, RwLock digunakan agar notifikasi bisa dibaca secara bersamaan oleh banyak thread, kenapa digunakan dibandingkan mutex? karena ketentuan rwlock yang dimana bisa banyak reader namun hanya ada 1 writer (server) dan saat ada yang read, tidak boleh write dan vice versa, reader disini adalah receiver agar notifikasi bisa dilakukan secara bersamaan. Kalau digunakan dengan mutex, proses notifikasi akan lebih lama, karena hanya ada 1 thread yang boleh mengakses vector tersebut. 
+
+- Karena rust lebih ketat pada memory safety. Java bisa melakukan hal tersebut karena aturannya tidak seketat rust, dimana java lebih membebaskan kepada developer. Maka rust memberikan fungsi bawaan agar mencegah data race dan lebih pointer safety serta aman secara memory. 
 
 #### Reflection Subscriber-2
+- Ya, lib.rs dipakai untuk menyimpang shared library dan setting global yang dipakai oleh aplikasi. cargo.toml dipakai untuk list dependency apa saja yang dipakai, main.rs untuk inisialisasi aplikasi, rocket.toml mirip seperti application.properties di spring untuk set port dan set profile. dan folder target seperti folder build pada gradle.
+
+- Observer memudahkan penambahan subscriber karena jika ingin menambah, tinggal taro di vector atau hashmap saja, lalu aplikasi akan mengakses vector tersebut dan notify setiap subscriber. Lalu endpoint receiver semua sama, tidak perlu mengubah kode lagi. Jika yang ditambah instance main masih tetap mudah, namun setiap instance memiliki subscriber masing2 karena disimpan dalam vector, tetapi ada opsi lain yaitu memakai database agar setiap instance mengakses database static tersebut dan pengiriman notifikasi bisa dilakukan oleh setiap instance main bersama2.
+
+- Menurut saya fitur test tersebut bisa berguna untuk TK, saya bisa bayangkan test untuk setiap api yang ada di modul saya atau 1 app secara keseluruhan, dimana setelah saya tambahkan fitur baru, saya cek apakah api yang sudah ada masih berfungsi atau tidak. Lalu documentation bisa berguna saat ingin membuat front-end dan menganalisis bagaimana modul teman sekelompok bekerja.
